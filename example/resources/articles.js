@@ -26,6 +26,14 @@ jsonApi.define({
     status: jsonApi.Joi.string().default('published')
       .description('The status of the article - draft, ready, published')
       .example('published'),
+    nested: jsonApi.Joi.object().keys({
+      username: jsonApi.Joi.string().alphanum().min(3).max(30).required()
+        .description('Someones username apparently')
+    }).description('A nested object for testing'),
+    nesteds: jsonApi.Joi.array().items(jsonApi.Joi.object().keys({
+      password: jsonApi.Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+        .description('Someones password apparently')
+    })).description('A nested array of objects for testing'),
     views: jsonApi.Joi.number().default(0)
       .description('Number of views for this article'),
     author: jsonApi.Joi.one('people')
@@ -45,6 +53,12 @@ jsonApi.define({
       content: 'na',
       created: '2016-01-05',
       views: 10,
+      nested: {
+        username: 'user1'
+      },
+      nesteds: [{
+        password: 'qwerty'
+      }],
       author: {
         type: 'people',
         id: 'cc5cca2e-0dd8-4b95-8cfc-a11230e73116',
